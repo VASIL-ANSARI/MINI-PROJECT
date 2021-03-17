@@ -39,18 +39,25 @@ class _MainScreenState extends State<MainScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Colors.black,
       body: ListView(
         children: [
           Padding(
             padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 5.0),
             child: Container(
-              child: Text(
-                "Welcome Vasil Ansari,\nExplore more..",
-                textAlign: TextAlign.start,
-                textScaleFactor: 2.0,
-                maxLines: 2,
+              child: Padding(
+                padding: EdgeInsets.all(3.0),
+                child: Text(
+                  "Welcome Vasil Ansari,\nExplore more..",
+                  textAlign: TextAlign.start,
+                  textScaleFactor: 2.0,
+                  maxLines: 2,
+                ),
               ),
+              decoration: BoxDecoration(
+                  shape: BoxShape.rectangle,
+                  borderRadius: BorderRadius.circular(2.0),
+                  color: Colors.yellow),
             ),
           ),
           SingleChildScrollView(
@@ -95,6 +102,36 @@ class _MainScreenState extends State<MainScreen>
               ])
             ]),
           ),
+          Padding(
+              padding: EdgeInsets.all(3.0),
+              child: Row(children: [
+                Container(
+                  child: Image.asset('images/clip-remote-learning.png'),
+                  height: 200.0,
+                  width: 200.0,
+                ),
+                TextButton(onPressed: () {}, child: Text("Courses"))
+              ])),
+          Padding(
+              padding: EdgeInsets.all(3.0),
+              child: Row(children: [
+                Container(
+                  child: Image.asset('images/flame-1196.png'),
+                  height: 200.0,
+                  width: 200.0,
+                ),
+                TextButton(onPressed: () {}, child: Text("Statistics"))
+              ])),
+          Padding(
+              padding: EdgeInsets.all(5.0),
+              child: Row(children: [
+                Container(
+                  child: Image.asset('images/pablita-94.png'),
+                  height:100.0,
+                  width: 100.0,
+                ),
+                TextButton(onPressed: () {}, child: Text("Video Lectures"))
+              ])),
         ],
       ),
       appBar: AppBar(
