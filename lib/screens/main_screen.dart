@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:main_page_app/screens/quiz_screen.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:animated_text_kit/animated_text_kit.dart';
 
 class MainScreen extends StatefulWidget {
   @override
@@ -19,7 +21,7 @@ class _MainScreenState extends State<MainScreen>
   void initState() {
     super.initState();
     controller =
-        AnimationController(vsync: this, duration: Duration(seconds: 5));
+        AnimationController(vsync: this, duration: Duration(seconds: 4));
     animation = IntTween(begin: 0, end: 2).animate(controller);
     controller.forward();
     controller.addListener(() {
@@ -27,6 +29,11 @@ class _MainScreenState extends State<MainScreen>
       setState(() {
         index = animation.value;
       });
+      if(controller.status==AnimationStatus.completed){
+        setState(() {
+          index=0;
+        });
+      }
     });
   }
 
@@ -47,11 +54,13 @@ class _MainScreenState extends State<MainScreen>
             child: Container(
               child: Padding(
                 padding: EdgeInsets.all(3.0),
-                child: Text(
-                  "Welcome Vasil Ansari,\nExplore more..",
+                child: TypewriterAnimatedTextKit(
+                  text:["Welcome Vasil Ansari"],
                   textAlign: TextAlign.start,
-                  textScaleFactor: 2.0,
-                  maxLines: 2,
+                  textStyle: TextStyle(
+                    fontWeight: FontWeight.w400,
+                    fontSize: 45.0
+                  ),
                 ),
               ),
               decoration: BoxDecoration(
@@ -120,7 +129,9 @@ class _MainScreenState extends State<MainScreen>
                   height: 200.0,
                   width: 200.0,
                 ),
-                TextButton(onPressed: () {}, child: Text("Statistics"))
+                TextButton(onPressed: () {
+                  navigateToQuizScreen();
+                }, child: Text("Statistics and Quizzes"))
               ])),
           Padding(
               padding: EdgeInsets.all(5.0),
@@ -144,6 +155,12 @@ class _MainScreenState extends State<MainScreen>
         ),
       ),
     );
+  }
+
+  void navigateToQuizScreen(){
+    Navigator.push(context, MaterialPageRoute(builder: (context) {
+      return QuizScreen();
+    }));
   }
 
   _launchURLApp(var url) async {
