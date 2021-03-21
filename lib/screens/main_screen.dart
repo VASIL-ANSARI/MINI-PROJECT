@@ -1,17 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:main_page_app/screens/quiz_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
+import 'main_drawer.dart';
 
-class MainScreen extends StatefulWidget {
+class MainScreen extends StatefulWidget{
+  String name,branch,registration_number,email;
+  MainScreen(this.name,this.registration_number,this.branch,this.email);
   @override
   State<StatefulWidget> createState() {
-    return _MainScreenState();
+    return _MainScreenState(name,registration_number,branch,email);
   }
 }
 
 class _MainScreenState extends State<MainScreen>
     with SingleTickerProviderStateMixin {
+  String name,branch,registration_number,email;
+  _MainScreenState(this.name,this.registration_number,this.branch,this.email);
   AnimationController controller;
   Animation animation;
   int index = 0;
@@ -52,17 +58,27 @@ class _MainScreenState extends State<MainScreen>
           Padding(
             padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 5.0),
             child: Container(
-              child: Padding(
-                padding: EdgeInsets.all(3.0),
-                child: TypewriterAnimatedTextKit(
-                  text:["Welcome Vasil Ansari"],
-                  textAlign: TextAlign.start,
-                  textStyle: TextStyle(
-                    fontWeight: FontWeight.w400,
-                    fontSize: 45.0
-                  ),
-                ),
+              child: FutureBuilder<SharedPreferences>(
+                future: SharedPreferences.getInstance(),
+                builder: (context,snapshot){
+                  if(!snapshot.hasData){
+                    return CircularProgressIndicator();
+                  }
+                  String _name=snapshot.data.getStringList(registration_number)[1];
+                  return Padding(
+                    padding: EdgeInsets.all(3.0),
+                    child: TypewriterAnimatedTextKit(
+                      text:["Welcome $_name"],
+                      textAlign: TextAlign.start,
+                      textStyle: TextStyle(
+                          fontWeight: FontWeight.w400,
+                          fontSize: 45.0
+                      ),
+                    ),
+                  );
+                },
               ),
+
               decoration: BoxDecoration(
                   shape: BoxShape.rectangle,
                   borderRadius: BorderRadius.circular(2.0),
@@ -147,19 +163,19 @@ class _MainScreenState extends State<MainScreen>
       ),
       appBar: AppBar(
         title: Text("Students Corner"),
-        leading: IconButton(
-          icon: Icon(Icons.home),
-          onPressed: () {
-            print("Home pressed");
-          },
-        ),
       ),
+      drawer: MainDrawer(name,branch,registration_number,email),
+      onDrawerChanged: (val){
+        if(val) {
+          setState(() {});
+        }
+      },
     );
   }
 
   void navigateToQuizScreen(){
     Navigator.push(context, MaterialPageRoute(builder: (context) {
-      return QuizScreen();
+      return QuizScreen(registration_number,branch);
     }));
   }
 
