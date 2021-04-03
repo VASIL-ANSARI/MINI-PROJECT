@@ -1,8 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.main_page_app">
    <application
-        android:label="main_page_app"
-        android:icon="@mipmap/ic_launcher">
+        android:label="E-learning App"
+        android:icon="@drawable/icon">
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"

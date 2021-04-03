@@ -7,6 +7,8 @@ import 'package:page_transition/page_transition.dart';
 import 'edit_details.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'main_screen.dart';
+
 class Details extends StatefulWidget {
   String name, email, registration_number, branch;
 
@@ -115,5 +117,13 @@ class _DetailsState extends State<Details> {
     )
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
+      return MainScreen(name, registration_number, branch, email);
+    }));
+    super.dispose();
   }
 }

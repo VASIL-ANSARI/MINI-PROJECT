@@ -17,11 +17,15 @@ class EditDetailsScreen extends StatefulWidget {
 
 class _EditDetailsState extends State<EditDetailsScreen> {
   String name, email, registration_number, branch;
-  TextEditingController titleController = TextEditingController();
-  TextEditingController descriptionController = TextEditingController();
+  TextEditingController titleController;
+  TextEditingController descriptionController;
 
   _EditDetailsState(
-      this.name, this.email, this.registration_number, this.branch);
+      this.name, this.email, this.registration_number, this.branch){
+    titleController=TextEditingController(text: email);
+    descriptionController = TextEditingController(text:name);
+
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +51,7 @@ class _EditDetailsState extends State<EditDetailsScreen> {
                   _updateEmail();
                 },
                 decoration: InputDecoration(
-                    labelText: 'Email Address',
+                    labelText: 'Email',
                     labelStyle: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.w300,
@@ -110,18 +114,39 @@ class _EditDetailsState extends State<EditDetailsScreen> {
   }
 
   void _save() async {
-    if (name.trim() == '' || email.trim() == '') {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text("Empty Fields not allowed"),
-        backgroundColor: Colors.red,
-      ));
-      return;
-    }
     var prefs = await SharedPreferences.getInstance();
     List<String> list = prefs.getStringList(registration_number);
+    List<String> emails=prefs.getStringList("emails");
     //["true","Mohd vasil ansari","B.Tech CS",email,password]
-    list[1] = name;
-    list[3] = email;
+    if(name.trim().length==0){
+      if(email.trim().length>0 && emails.contains(email)){
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text("Email already exists!"),
+          backgroundColor: Colors.red,
+        ));
+        return ;
+      }
+      else if(email.trim().length>0){
+        list[3]=email;
+      }
+    }
+    else if(email.trim().length==0){
+      if(name.trim().length>0){
+        list[1]=name;
+      }
+    }else {
+      if(emails.contains(email)){
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text("Email already exists!"),
+          backgroundColor: Colors.red,
+        ));
+        return ;
+      }
+      else{
+        list[1]=name;
+        list[3]=email;
+      }
+    }
     prefs.setStringList(registration_number, list).whenComplete(() {
       Navigator.pop(context,true);
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(

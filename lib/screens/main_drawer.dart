@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:main_page_app/login.dart';
 import 'package:main_page_app/main.dart';
 import 'package:main_page_app/screens/end_screen.dart';
+import 'package:main_page_app/screens/main_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'change_password.dart';
 import 'details.dart';
@@ -8,6 +10,8 @@ import 'details.dart';
 class MainDrawer extends StatelessWidget{
   List<String> Subjects = [];
   String name,branch,registration_number,email;
+  GlobalKey<ScaffoldState> scaffoldKey;
+
   MainDrawer(this.name,this.branch,this.registration_number,this.email);
 
   @override
@@ -74,7 +78,7 @@ class MainDrawer extends StatelessWidget{
             leading: Icon(Icons.vpn_key),
             title: Text('Change Password',style: TextStyle(fontSize: 18),),
             onTap: (){
-              Navigator.push(context, MaterialPageRoute(builder: (context) {
+              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
                 return ChangePassword(registration_number);
               }));
             },
@@ -93,8 +97,8 @@ class MainDrawer extends StatelessWidget{
                 print(prefs.getStringList(key));
               }
               ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('you are logged out successfully')));
-              Navigator.push(context, MaterialPageRoute(builder: (context) {
-                return MyApp();
+              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
+                return FirstScreen();
               }));
             },
           )

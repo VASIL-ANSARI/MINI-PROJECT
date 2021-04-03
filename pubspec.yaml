@@ -40,6 +40,9 @@ dependencies:
   page_transition: ^1.1.7+6
   flutter_bloc: any
   rxdart: ^0.26.0
+  string_validator: ^0.3.0
+  toast:
+  flutter_email_sender: ^5.0.0
 
 dev_dependencies:
   flutter_test:

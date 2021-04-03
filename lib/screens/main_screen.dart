@@ -165,11 +165,6 @@ class _MainScreenState extends State<MainScreen>
         title: Text("Students Corner"),
       ),
       drawer: MainDrawer(name,branch,registration_number,email),
-      onDrawerChanged: (val){
-        if(val) {
-          setState(() {});
-        }
-      },
     );
   }
 
