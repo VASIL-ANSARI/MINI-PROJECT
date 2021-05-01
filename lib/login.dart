@@ -530,7 +530,10 @@ class _SignUp extends State<Signup> {
     else if(isValid(password, context)){
       var prefs=await SharedPreferences.getInstance();
       List<String> emails=prefs.getStringList("emails");
-      if(emails.contains(email)){
+      if(emails==null){
+        emails=[];
+      }
+      if(emails!=null && emails.contains(email)){
         Toast.show("Email already exists", context,duration: 2,gravity: Toast.CENTER);
       }
       else {

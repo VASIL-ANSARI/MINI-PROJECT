@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:main_page_app/screens/Cse.dart';
+import 'package:main_page_app/screens/YearEEE.dart';
 import 'package:main_page_app/screens/quiz_screen.dart';
+import 'package:main_page_app/screens/videos_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
@@ -135,7 +138,18 @@ class _MainScreenState extends State<MainScreen>
                   height: 200.0,
                   width: 200.0,
                 ),
-                TextButton(onPressed: () {}, child: Text("Courses"))
+                TextButton(onPressed: () {
+                  if(branch=='B.Tech CS'){
+                    Navigator.push(context, MaterialPageRoute(builder: (context) {
+                      return YearCSE();
+                    }));
+                  }
+                  else if(branch=='B.Tech EE'){
+                    Navigator.push(context, MaterialPageRoute(builder: (context) {
+                      return YearEEE();
+                    }));
+                  }
+                }, child: Text("Courses"))
               ])),
           Padding(
               padding: EdgeInsets.all(3.0),
@@ -157,7 +171,11 @@ class _MainScreenState extends State<MainScreen>
                   height:100.0,
                   width: 100.0,
                 ),
-                TextButton(onPressed: () {}, child: Text("Video Lectures"))
+                TextButton(onPressed: () {
+                  Navigator.push(context,MaterialPageRoute(builder: (context){
+                    return VideoScreen(branch);
+                  }));
+                }, child: Text("Video Lectures"))
               ])),
         ],
       ),
